@@ -1,0 +1,501 @@
+/* ===== DASHBOARD MOBILE FIRST ===== */
+
+.dashboard-grid {
+    width: 100%;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.api-mini-panel,
+.estadisticas-card,
+.chat-gemini {
+    width: 100%;
+    min-width: 0;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+/* ===== API PANEL ===== */
+
+.api-mini-panel {
+    height: auto;
+    max-height: 520px;
+    overflow: hidden;
+}
+
+.api-mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.api-mini-header h3 {
+    color: white;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.api-mini-header span {
+    background: #10b981;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.api-mini-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 430px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.api-mini-item {
+    display: flex;
+    gap: 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 10px;
+}
+
+.api-mini-img {
+    width: 76px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.api-mini-info {
+    min-width: 0;
+}
+
+.api-mini-info h4 {
+    color: white;
+    font-size: .9rem;
+    margin: 0 0 4px;
+}
+
+.api-mini-info p {
+    color: #10b981;
+    font-size: .8rem;
+    margin: 0;
+}
+
+.api-mini-info small {
+    color: var(--text-muted);
+    font-size: .75rem;
+}
+
+/* ===== ESTADISTICAS ===== */
+
+.estadisticas-card h2 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+}
+
+.dona-chart-container {
+    width: 100%;
+    min-height: 280px;
+    height: 320px;
+}
+
+/* ===== BOTONES ===== */
+
+.dashboard-buttons {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.btn-agregar-torneo {
+    min-height: 70px;
+    background: #10b981 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 16px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    transition: .25s ease;
+}
+
+.btn-agregar-torneo:hover {
+    transform: translateY(-2px);
+    background: #059669 !important;
+}
+
+/* ===== CHAT ===== */
+
+.chat-gemini {
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-gemini h2 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+}
+
+.chat-mensajes {
+    flex: 1;
+    min-height: 260px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 4px;
+}
+
+.mensaje {
+    max-width: 90%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: .9rem;
+}
+
+.mensaje p {
+    margin: 0;
+}
+
+.mensaje.usuario {
+    align-self: flex-end;
+    background: #10b981;
+    color: white;
+}
+
+.mensaje.ia {
+    align-self: flex-start;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.chat-form {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-form input {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: white;
+    border-radius: 12px;
+    padding: 10px;
+    outline: none;
+}
+
+.chat-form button {
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0 14px;
+    cursor: pointer;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* ===== TABLET ===== */
+
+@media (min-width: 768px) {
+    .dashboard-grid {
+        padding: 22px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-buttons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .chat-gemini {
+        grid-column: span 2;
+    }
+}
+
+/* ===== LAPTOP ===== */
+
+@media (min-width: 1100px) {
+    .dashboard-grid {
+        grid-template-columns: 360px minmax(0, 1fr);
+        grid-template-areas:
+            "api stats"
+            "api buttons"
+            "chat chat";
+    }
+
+    .api-mini-panel {
+        grid-area: api;
+    }
+
+    .estadisticas-card {
+        grid-area: stats;
+    }
+
+    .dashboard-buttons {
+        grid-area: buttons;
+    }
+
+    .chat-gemini {
+        grid-area: chat;
+    }
+}
+
+/* ===== DESKTOP GRANDE ===== */
+
+@media (min-width: 1400px) {
+    .dashboard-grid {
+        grid-template-columns: 360px minmax(360px, 1fr) 380px;
+        grid-template-areas:
+            "api stats chat"
+            "api buttons chat";
+    }
+
+    .chat-gemini {
+        grid-area: chat;
+        min-height: 520px;
+    }
+
+}
+
+/* ===== MOBILE CHICO ===== */
+
+@media (max-width: 420px) {
+    .dashboard-grid {
+        padding: 12px;
+        gap: 14px;
+    }
+
+    .api-mini-panel,
+    .estadisticas-card,
+    .chat-gemini {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    .api-mini-item {
+        gap: 10px;
+        padding: 9px;
+    }
+
+    .api-mini-img {
+        width: 64px;
+        height: 52px;
+    }
+
+    .chat-form {
+        flex-direction: column;
+    }
+
+    .chat-form button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .btn-agregar-torneo {
+        min-height: 62px;
+        font-size: 15px !important;
+    }
+}
+
+.dashboard-layout {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    background: #0f172a;
+}
+
+.dashboard-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.dashboard-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.dashboard-top {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.dashboard-top h1 {
+    color: white;
+    margin: 0;
+    font-size: 32px;
+}
+
+.dashboard-top p {
+    color: #9ca3af;
+    margin: 6px 0 0;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-agregar-torneo {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 18px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.btn-agregar-torneo:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.dashboard-torneos {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.torneos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.torneo-card {
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.juegos-header {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1000px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+    }
+
+    .btn-agregar-torneo {
+        flex: 1;
+    }
+}
+/* ===== GRAFICOS DASHBOARD ===== */
+
+.dashboard-graficos {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.dashboard-graficos .estadisticas-card {
+    background: #111827;
+    border: 1px solid #374151;
+    border-radius: 18px;
+    padding: 20px;
+    min-height: 420px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dona-chart-container,
+.bar-chart-container {
+    width: 100%;
+    height: 320px;
+}
+
+@media (max-width: 1000px) {
+    .dashboard-graficos {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-graficos .estadisticas-card {
+        min-height: 380px;
+    }
+}
+/* ===== FIX GRAFICOS DASHBOARD ===== */
+
+.dashboard-main {
+    min-width: 0;
+}
+
+.dashboard-graficos {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+.dashboard-graficos .estadisticas-card {
+    grid-area: auto !important;
+    width: 100%;
+    min-width: 0;
+    height: 360px;
+    padding: 18px;
+    overflow: hidden;
+}
+
+.dashboard-graficos .dona-chart-container,
+.dashboard-graficos .bar-chart-container {
+    width: 100%;
+    height: 300px;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .dashboard-graficos {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-graficos .estadisticas-card {
+        height: 360px;
+    }
+}

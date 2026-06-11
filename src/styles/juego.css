@@ -1,0 +1,211 @@
+/* ===== JUEGOS ===== */
+
+.juegos-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 16px;
+}
+
+.juego-card {
+    width: 100%;
+    min-width: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-base);
+}
+
+.juego-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.juego-imagen {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    background: var(--bg-primary);
+}
+
+.juego-info {
+    padding: 18px;
+}
+
+.juego-info h2 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.juego-genero {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    background: var(--primary);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.juego-info p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.juego-info strong {
+    color: var(--text-primary);
+}
+
+.juego-descripcion {
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+    padding-top: 14px;
+    margin-top: 14px;
+    line-height: 1.5;
+}
+
+.juego-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.juego-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+}
+
+.sin-resultados {
+    grid-column: 1 / -1;
+    width: 100%;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+}
+
+/* ===== BUSCADOR / HEADER JUEGOS ===== */
+
+.juegos-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+}
+
+.buscador {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.buscador input {
+    width: 100%;
+    min-width: 0;
+    padding: 14px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 15px;
+    transition: var(--transition-base);
+}
+
+.buscador input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+.buscador button,
+.agregar-juego-btn {
+    width: 100%;
+    border-radius: var(--radius-md) !important;
+    font-weight: 700 !important;
+    padding: 12px 20px !important;
+}
+
+/* ===== TABLET ===== */
+
+@media (min-width: 768px) {
+    .juegos-header {
+        flex-direction: row;
+        align-items: center;
+        padding: 22px;
+    }
+
+    .juegos-header .buscador {
+        flex: 1;
+    }
+
+    .buscador {
+        flex-direction: row;
+    }
+
+    .buscador button,
+    .agregar-juego-btn {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    .juegos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 22px;
+    }
+}
+
+/* ===== LAPTOP ===== */
+
+@media (min-width: 1100px) {
+    .juegos-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        padding: 24px;
+    }
+}
+
+/* ===== DESKTOP GRANDE ===== */
+
+@media (min-width: 1500px) {
+    .juegos-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* ===== MOBILE CHICO ===== */
+
+@media (max-width: 420px) {
+    .juegos-grid,
+    .juegos-header {
+        padding: 12px;
+    }
+
+    .juego-info {
+        padding: 14px;
+    }
+
+    .juego-imagen {
+        height: 165px;
+    }
+
+    .juego-actions {
+        flex-direction: column;
+    }
+
+    .juego-actions .btn {
+        width: 100%;
+    }
+}
