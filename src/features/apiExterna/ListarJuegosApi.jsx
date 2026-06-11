@@ -26,8 +26,10 @@ const ListarJuegosApi = () => {
                 );
                 dispatch(setJuegosApi(response.data || []));
             } catch (error) {
-                console.log(error);
-                toast.error("Error al obtener los juegos");
+                toast.error(
+                    error.response?.data?.error ||
+                    "Error al obtener los juegos"
+                );
             } finally {
                 setLoading(false);
             }

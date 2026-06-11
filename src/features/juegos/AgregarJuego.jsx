@@ -17,7 +17,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
         register,
         handleSubmit,
         reset,
-        formState: { errors }
+        formState: { errors, isSubmitting }
     } = useForm({
         resolver: joiResolver(agregarJuegoSchema),
         mode: "onSubmit"
@@ -49,6 +49,8 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
     };
 
     const cerrarModal = () => {
+        if (isSubmitting) return;
+
         limpiarFormulario();
         setShowModal(false);
     };
@@ -71,6 +73,8 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
     };
 
     const onSubmit = async (data) => {
+        if (isSubmitting) return;
+
         try {
             const formData = new FormData();
 
@@ -87,7 +91,8 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
             toast.success("Juego agregado correctamente");
 
             onJuegoAgregado?.();
-            cerrarModal();
+            limpiarFormulario();
+            setShowModal(false);
         } catch (error) {
             toast.error(
                 error.response?.data?.error ||
@@ -102,6 +107,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                 <button
                     className="btn btn-primary agregar-juego-btn"
                     onClick={() => setShowModal(true)}
+                    disabled={isSubmitting}
                 >
                     + Agregar juego
                 </button>
@@ -122,6 +128,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                     className="btn-close btn-close-white"
                                     onClick={cerrarModal}
                                     aria-label="Cerrar"
+                                    disabled={isSubmitting}
                                 />
                             </div>
 
@@ -134,6 +141,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                                 type="text"
                                                 className="form-control app-modal-input"
                                                 placeholder="Nombre *"
+                                                disabled={isSubmitting}
                                                 {...register("nombre")}
                                             />
                                             {errors.nombre && (
@@ -148,6 +156,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                                 type="text"
                                                 className="form-control app-modal-input"
                                                 placeholder="Género *"
+                                                disabled={isSubmitting}
                                                 {...register("genero")}
                                             />
                                             {errors.genero && (
@@ -162,6 +171,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                                 type="text"
                                                 className="form-control app-modal-input"
                                                 placeholder="Plataforma *"
+                                                disabled={isSubmitting}
                                                 {...register("plataforma")}
                                             />
                                             {errors.plataforma && (
@@ -174,6 +184,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                         <div className="col-12 col-md-6">
                                             <select
                                                 className="form-select app-modal-input"
+                                                disabled={isSubmitting}
                                                 {...register("categoria")}
                                             >
                                                 <option value="">Categoría *</option>
@@ -201,6 +212,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                                 accept="image/*"
                                                 className="form-control app-modal-input"
                                                 onChange={handleFileChange}
+                                                disabled={isSubmitting}
                                             />
 
                                             {errors.imagenUrl && (
@@ -215,6 +227,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                                 rows="3"
                                                 className="form-control app-modal-input"
                                                 placeholder="Descripción"
+                                                disabled={isSubmitting}
                                                 {...register("descripcion")}
                                             />
 
@@ -233,6 +246,7 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                         type="button"
                                         className="btn btn-secondary"
                                         onClick={cerrarModal}
+                                        disabled={isSubmitting}
                                     >
                                         Cancelar
                                     </button>
@@ -240,8 +254,9 @@ const AgregarJuego = ({ onJuegoAgregado }) => {
                                     <button
                                         type="submit"
                                         className="btn btn-guardar"
+                                        disabled={isSubmitting}
                                     >
-                                        Guardar
+                                        {isSubmitting ? "Guardando..." : "Guardar"}
                                     </button>
                                 </div>
                             </form>

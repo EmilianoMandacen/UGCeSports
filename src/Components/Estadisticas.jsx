@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import api from "../../api/api";
 
 import {
@@ -39,7 +40,10 @@ const EstadisticasJugadores = () => {
                 });
 
             } catch (error) {
-                console.log("Error estadísticas:", error);
+                toast.error(
+                    error.response?.data?.error ||
+                    "Error al obtener las estadísticas"
+                );
             }
         };
 

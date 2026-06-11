@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 
 import AgregarTorneo from "../features/torneos/AgregarTorneo";
 import TarjetaTorneo from "../features/torneos/TarjetaTorneo";
@@ -7,7 +6,8 @@ import EstadisticasJugadores from "../features/estadisticas/EstadisticasJugadore
 import TorneosPorJuego from "../features/estadisticas/TorneosPorJuego";
 import ListarJuegosApi from "../features/apiExterna/ListarJuegosApi";
 import ChatGemini from "../features/gemini/chatgemini";
-import Plan from "../features/plan/TarjetaPlan"
+import Plan from "../features/plan/TarjetaPlan";
+import CantidadPlan from "../features/plan/CantidadPlan";
 
 import "../styles/dashboard.css";
 
@@ -15,14 +15,25 @@ const Dashboard = () => {
     const [mostrarModal, setMostrarModal] = useState(false);
     const [refreshTorneos, setRefreshTorneos] = useState(0);
     const [refreshStats, setRefreshStats] = useState(0);
-    const navigate = useNavigate();
+    const [refreshPlan, setRefreshPlan] = useState(0);
+
+    const refrescarTodo = () => {
+        setRefreshTorneos(prev => prev + 1);
+        setRefreshStats(prev => prev + 1);
+        setRefreshPlan(prev => prev + 1);
+    };
 
     return (
         <>
             <section className="dashboard-layout">
-
                 <aside className="dashboard-sidebar">
-                    <Plan />
+                    <Plan onPlanActualizado={refrescarTodo} />
+
+                    <CantidadPlan
+                        refreshTorneos={refreshTorneos}
+                        refreshPlan={refreshPlan}
+                    />
+
                     <ListarJuegosApi />
                     <ChatGemini />
                 </aside>
@@ -32,10 +43,7 @@ const Dashboard = () => {
                         <TarjetaTorneo
                             onAgregarTorneo={() => setMostrarModal(true)}
                             refreshTorneos={refreshTorneos}
-                            onTorneoEliminado={() => {
-                                setRefreshTorneos(prev => prev + 1);
-                                setRefreshStats(prev => prev + 1);
-                            }}
+                            onTorneoEliminado={refrescarTodo}
                         />
                     </section>
 
@@ -43,16 +51,13 @@ const Dashboard = () => {
                         <EstadisticasJugadores refreshStats={refreshStats} />
                         <TorneosPorJuego refreshStats={refreshStats} />
                     </div>
-
                 </main>
-
             </section>
 
             {mostrarModal && (
                 <div className="app-modal-overlay">
                     <div className="app-modal-dialog">
                         <div className="app-modal-content">
-
                             <div className="app-modal-header">
                                 <h5 className="modal-title">
                                     Agregar torneo
@@ -71,12 +76,10 @@ const Dashboard = () => {
                                     modoModal={true}
                                     onTorneoAgregado={() => {
                                         setMostrarModal(false);
-                                        setRefreshTorneos(prev => prev + 1);
-                                        setRefreshStats(prev => prev + 1);
+                                        refrescarTodo();
                                     }}
                                 />
                             </div>
-
                         </div>
                     </div>
                 </div>

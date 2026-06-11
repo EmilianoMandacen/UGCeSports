@@ -34,6 +34,7 @@ const NavBar = () => {
                             <span className="navbar-logo-text">
                                 UGC eSports
                             </span>
+                            
                         </div>
                     </Link>
                 </div>

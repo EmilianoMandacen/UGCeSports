@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 import api from "../../api/api";
 import Loader from "../../Components/Loader";
 
-const TarjetaPlan = () => {
+const TarjetaPlan = ({ onPlanActualizado }) => {
     const [usuario, setUsuario] = useState(null);
     const [loading, setLoading] = useState(false);
     const [cambiandoPlan, setCambiandoPlan] = useState(false);
@@ -20,6 +20,10 @@ const TarjetaPlan = () => {
             localStorage.setItem("subRole", res.data.subRole);
 
             toast.success("Ahora eres usuario Premium");
+
+            if (onPlanActualizado) {
+                onPlanActualizado();
+            }
         } catch (error) {
             toast.error(
                 error.response?.data?.error ||
@@ -43,12 +47,10 @@ const TarjetaPlan = () => {
 
     return (
         <aside className="api-mini-panel">
-
             <div className="plan-switch-box">
                 <button
                     type="button"
-                    className={`plan-toggle ${esPremium ? "active" : ""
-                        }`}
+                    className={`plan-toggle ${esPremium ? "active" : ""}`}
                     disabled={esPremium || cambiandoPlan}
                     onClick={cambiarPlan}
                     aria-label="Cambiar a Premium"

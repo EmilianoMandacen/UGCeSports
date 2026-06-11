@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/api";
+import { toast } from "react-toastify";
 
 import {
     Chart as ChartJS,
@@ -25,18 +26,21 @@ ChartJS.register(
 const TorneosPorJuego = ({ refreshStats }) => {
     const [datos, setDatos] = useState([]);
 
-useEffect(() => {
-    const obtenerDatos = async () => {
-        try {
-            const res = await api.get("/estadisticas/torneos-por-juego");
-            setDatos(res.data);
-        } catch (error) {
-            console.log("Error torneos por juego:", error);
-        }
-    };
+    useEffect(() => {
+        const obtenerDatos = async () => {
+            try {
+                const res = await api.get("/estadisticas/torneos-por-juego");
+                setDatos(res.data);
+            } catch (error) {
+                toast.error(
+                    error.response?.data?.error ||
+                    "Error al obtener los torneos por juego"
+                );
+            }
+        };
 
-    obtenerDatos();
-}, [refreshStats]);
+        obtenerDatos();
+    }, [refreshStats]);
 
     const data = {
         labels: datos.map(item => item._id),
