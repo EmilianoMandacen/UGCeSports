@@ -32,13 +32,18 @@ const Dashboard = () => {
                         <TarjetaTorneo
                             onAgregarTorneo={() => setMostrarModal(true)}
                             refreshTorneos={refreshTorneos}
+                            onTorneoEliminado={() => {
+                                setRefreshTorneos(prev => prev + 1);
+                                setRefreshStats(prev => prev + 1);
+                            }}
                         />
                     </section>
 
                     <div className="dashboard-graficos">
                         <EstadisticasJugadores refreshStats={refreshStats} />
-                        <TorneosPorJuego />
+                        <TorneosPorJuego refreshStats={refreshStats} />
                     </div>
+
                 </main>
 
             </section>
@@ -67,6 +72,7 @@ const Dashboard = () => {
                                     onTorneoAgregado={() => {
                                         setMostrarModal(false);
                                         setRefreshTorneos(prev => prev + 1);
+                                        setRefreshStats(prev => prev + 1);
                                     }}
                                 />
                             </div>

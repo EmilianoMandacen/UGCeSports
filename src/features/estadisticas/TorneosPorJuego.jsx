@@ -22,24 +22,21 @@ ChartJS.register(
     Legend
 );
 
-const TorneosPorJuego = () => {
+const TorneosPorJuego = ({ refreshStats }) => {
     const [datos, setDatos] = useState([]);
 
-    useEffect(() => {
-        const obtenerDatos = async () => {
-            try {
-                const res = await api.get(
-                    "/estadisticas/torneos-por-juego"
-                );
+useEffect(() => {
+    const obtenerDatos = async () => {
+        try {
+            const res = await api.get("/estadisticas/torneos-por-juego");
+            setDatos(res.data);
+        } catch (error) {
+            console.log("Error torneos por juego:", error);
+        }
+    };
 
-                setDatos(res.data);
-            } catch (error) {
-                console.log("Error torneos por juego:", error);
-            }
-        };
-
-        obtenerDatos();
-    }, []);
+    obtenerDatos();
+}, [refreshStats]);
 
     const data = {
         labels: datos.map(item => item._id),

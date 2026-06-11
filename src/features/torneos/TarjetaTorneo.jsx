@@ -10,11 +10,7 @@ import EliminarTorneo from "./EliminarTorneo";
 import BuscarTorneo from "./BuscarTorneo";
 import Loader from "../../Components/Loader";
 
-const TarjetaTorneo = ({
-    onAgregarTorneo,
-    refreshTorneos,
-    torneosExternos = null,
-    onTorneosExternosChange
+const TarjetaTorneo = ({ onAgregarTorneo, refreshTorneos, onTorneoEliminado, torneosExternos = null, onTorneosExternosChange
 }) => {
     const dispatch = useDispatch();
     const { torneos } = useSelector(state => state.torneos);
@@ -183,6 +179,10 @@ const TarjetaTorneo = ({
 
     const eliminarTorneo = (id) => {
         quitarDeListaLocal(id);
+
+        if (onTorneoEliminado) {
+            onTorneoEliminado();
+        }
     };
 
     const inscribirseTorneo = async (torneo) => {
