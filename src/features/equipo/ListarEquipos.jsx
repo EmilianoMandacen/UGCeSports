@@ -3,7 +3,9 @@ const ListarEquipos = ({
     onEditar,
     onEliminar,
     onUnirse,
-    uniendoseId
+    onBaja,
+    uniendoseId,
+    bajandoId
 }) => {
     const role = localStorage.getItem("role");
     const usuarioId = localStorage.getItem("id");
@@ -37,6 +39,10 @@ const ListarEquipos = ({
                         !esCreador &&
                         !yaPertenece &&
                         !equipoLleno;
+
+                    const puedeDarseBaja =
+                        role === "jugador" &&
+                        yaPertenece;
 
                     return (
                         <div
@@ -75,7 +81,7 @@ const ListarEquipos = ({
                                 {equipo.torneos?.length > 0 && (
                                     equipo.torneos.map(torneo => (
                                         <p key={torneo._id || torneo}>
-                                            • {torneo.nombre || "Torneo"} 
+                                            • {torneo.nombre || "Torneo"}
                                             {torneo.premio ? ` - Premio: ${torneo.premio}` : ""}
                                         </p>
                                     ))
@@ -84,24 +90,38 @@ const ListarEquipos = ({
 
                             <div className="mt-3">
                                 {role === "jugador" && (
-                                    <button
-                                        className="btn btn-success me-2"
-                                        onClick={() => onUnirse(equipo)}
-                                        disabled={
-                                            !puedeUnirse ||
-                                            uniendoseId === equipo._id
-                                        }
-                                    >
-                                        {uniendoseId === equipo._id
-                                            ? "Uniéndose..."
-                                            : yaPertenece
-                                                ? "Ya estás en este equipo"
-                                                : equipoLleno
-                                                    ? "Equipo lleno"
-                                                    : esCreador
-                                                        ? "Sos el creador"
-                                                        : "Unirse"}
-                                    </button>
+                                    <>
+                                        {!yaPertenece && (
+                                            <button
+                                                className="btn btn-success me-2"
+                                                onClick={() => onUnirse(equipo)}
+                                                disabled={
+                                                    !puedeUnirse ||
+                                                    uniendoseId === equipo._id
+                                                }
+                                            >
+                                                {uniendoseId === equipo._id
+                                                    ? "Uniéndose..."
+                                                    : equipoLleno
+                                                        ? "Equipo lleno"
+                                                        : esCreador
+                                                            ? "Sos el creador"
+                                                            : "Unirse"}
+                                            </button>
+                                        )}
+
+                                        {puedeDarseBaja && (
+                                            <button
+                                                className="btn btn-outline-danger me-2"
+                                                onClick={() => onBaja(equipo)}
+                                                disabled={bajandoId === equipo._id}
+                                            >
+                                                {bajandoId === equipo._id
+                                                    ? "Saliendo..."
+                                                    : "Darse de baja"}
+                                            </button>
+                                        )}
+                                    </>
                                 )}
 
                                 {esCreador && (

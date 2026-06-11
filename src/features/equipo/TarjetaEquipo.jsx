@@ -22,6 +22,7 @@ const TarjetaEquipo = () => {
     const [equipoEditando, setEquipoEditando] = useState(null);
     const [equipoEliminar, setEquipoEliminar] = useState(null);
     const [uniendoseId, setUniendoseId] = useState(null);
+    const [bajandoId, setBajandoId] = useState(null);
 
     const cargarEquipos = async () => {
         try {
@@ -91,6 +92,33 @@ const TarjetaEquipo = () => {
         }
     };
 
+    const darseDeBajaEquipo = async (equipo) => {
+        try {
+            setBajandoId(equipo._id);
+
+            const res = await api.post(
+                `/equipos/${equipo._id}/baja`
+            );
+
+            const equipoActualizado = res.data.equipo || res.data;
+
+            actualizarEquipoEnLista(equipoActualizado);
+
+            toast.success(
+                res.data.message ||
+                "Te diste de baja del equipo correctamente"
+            );
+        } catch (error) {
+            toast.error(
+                error.response?.data?.error ||
+                error.response?.data?.message ||
+                "Error al darse de baja del equipo"
+            );
+        } finally {
+            setBajandoId(null);
+        }
+    };
+
     const equiposFiltrados = equipos.filter(equipo =>
         equipo.nombre
             ?.toLowerCase()
@@ -119,7 +147,9 @@ const TarjetaEquipo = () => {
                 onEditar={setEquipoEditando}
                 onEliminar={setEquipoEliminar}
                 onUnirse={unirseAEquipo}
+                onBaja={darseDeBajaEquipo}
                 uniendoseId={uniendoseId}
+                bajandoId={bajandoId}
             />
 
             {equipoEditando && (
