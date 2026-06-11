@@ -115,3 +115,22 @@
         text-align: center;
     }
 }
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar-logo-img {
+    height: 90px;
+    width: auto;
+    display: block;
+}
+
+.navbar-logo-text {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}

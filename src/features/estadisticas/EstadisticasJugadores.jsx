@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 
-import Loader from "../../Components/Loader";
-
 import {
     Chart as ChartJS,
     ArcElement,
@@ -20,39 +18,29 @@ ChartJS.register(
     Legend
 );
 
-const EstadisticasJugadores = () => {
+const EstadisticasJugadores = ({ refreshStats }) => {
     const [estadisticas, setEstadisticas] = useState({
         jugadoresRegistrados: 0,
         jugadoresInscriptosTorneos: 0
     });
 
-    const [loading, setLoading] = useState(true);
+    const obtenerEstadisticas = async () => {
+        try {
+            const res = await api.get("/estadisticas");
+
+            setEstadisticas({
+                jugadoresRegistrados: Number(res.data.jugadoresRegistrados ?? 0),
+                jugadoresInscriptosTorneos: Number(res.data.jugadoresInscriptosTorneos ?? 0)
+            });
+
+        } catch (error) {
+            console.log("Error estadísticas:", error);
+        }
+    };
 
     useEffect(() => {
-        const obtenerEstadisticas = async () => {
-            try {
-                setLoading(true);
-                const res = await api.get("/estadisticas");
-                console.log("Estadísticas obtenidas:", res.data);
-                setEstadisticas({
-                    jugadoresRegistrados: Number(
-                        res.data.jugadoresRegistrados ?? 0
-                    ),
-                    jugadoresInscriptosTorneos: Number(
-                        res.data.jugadoresInscriptosTorneos ?? 0
-                    )
-                });
-
-            } catch (error) {
-                console.log("Error estadísticas:", error);
-            }
-            finally {
-                setLoading(false);
-            }
-        };
-
         obtenerEstadisticas();
-    }, []);
+    }, [refreshStats]);
 
     const porcentaje =
         estadisticas.jugadoresRegistrados > 0
@@ -76,13 +64,12 @@ const EstadisticasJugadores = () => {
             const y = meta.data[0].y;
 
             ctx.save();
-
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
             ctx.fillStyle = "#ffffff";
             ctx.font = "bold 34px Arial";
-            ctx.fillText(`${porcentaje}%`, x, y - 12);
+            ctx.fillText(`${porcentaje}%`, x, y - 10);
 
             ctx.fillStyle = "#9ca3af";
             ctx.font = "13px Arial";
@@ -97,10 +84,7 @@ const EstadisticasJugadores = () => {
     };
 
     const data = {
-        labels: [
-            "Inscriptos en torneos",
-            "No inscriptos"
-        ],
+        labels: ["Inscriptos en torneos", "No inscriptos"],
         datasets: [
             {
                 data: [
@@ -111,10 +95,7 @@ const EstadisticasJugadores = () => {
                         0
                     )
                 ],
-                backgroundColor: [
-                    "#10b981",
-                    "#374151"
-                ],
+                backgroundColor: ["#10b981", "#374151"],
                 borderColor: "#111827",
                 borderWidth: 4,
                 hoverOffset: 10
@@ -150,20 +131,17 @@ const EstadisticasJugadores = () => {
     };
 
     return (
-        <>
         <div className="estadisticas-card">
+            <h2>📊 Estadísticas</h2>
 
             <div className="dona-chart-container">
                 <Doughnut
-                    key={`${estadisticas.jugadoresRegistrados}-${estadisticas.jugadoresInscriptosTorneos}`}
                     data={data}
                     options={options}
                     plugins={[centerTextPlugin]}
                 />
             </div>
         </div>
-
-        </>
     );
 };
 

@@ -14,6 +14,7 @@ import "../styles/dashboard.css";
 const Dashboard = () => {
     const [mostrarModal, setMostrarModal] = useState(false);
     const [refreshTorneos, setRefreshTorneos] = useState(0);
+    const [refreshStats, setRefreshStats] = useState(0);
     const navigate = useNavigate();
 
     return (
@@ -35,7 +36,7 @@ const Dashboard = () => {
                     </section>
 
                     <div className="dashboard-graficos">
-                        <EstadisticasJugadores />
+                        <EstadisticasJugadores refreshStats={refreshStats} />
                         <TorneosPorJuego />
                     </div>
                 </main>
